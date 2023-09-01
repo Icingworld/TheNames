@@ -13,7 +13,7 @@ class Database:
     def setName(self, name:str) -> None:
         self.__name = name
 
-    def connect(self) -> bool:
+    def open(self) -> bool:
         self.__conn = sqlite3.connect(self.__name)
         self.__cursor = self.__conn.cursor()
         self.__state = self.__conn.in_transaction
@@ -41,7 +41,7 @@ class Database:
 
     def search(self, command:str) -> list:
         self.__cursor.execute(command)
-        return self.__cursor.fetchall()
+        return [x[0] for x in self.__cursor.fetchall()]
     
     def close(self) -> None:
         self.__del__()
